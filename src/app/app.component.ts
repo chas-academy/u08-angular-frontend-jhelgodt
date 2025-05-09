@@ -13,9 +13,20 @@ import { Book } from './models/book.model';
 })
 export class AppComponent {
   newBook?: Book;
+  editableBook?: Book;
+  updatedBook?: Book;
 
-  onBookAdded(newBook: Book): void {
-    console.log('New book added:', newBook);
-    this.newBook = newBook; // Skickas vidare till BookListComponent
+  onBookAdded(book: Book): void {
+    if (book._id) {
+      this.updatedBook = book; // Skickar uppdaterad bok till listan
+    } else {
+      this.newBook = book; // Skickar ny bok till listan
+    }
+
+    this.editableBook = undefined;
+  }
+
+  onEditBook(book: Book): void {
+    this.editableBook = book;
   }
 }

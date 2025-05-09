@@ -1,3 +1,12 @@
-<app-book-form (bookAdded)="onBookAdded($event)"></app-book-form>
+<app-book-form
+  [editBook]="editableBook"
+  (bookAdded)="onBookAdded($event)"
+></app-book-form>
+
 <hr />
-<app-book-list [newBook]="newBook"></app-book-list>
+
+<app-book-list
+  (editBook)="onEditBook($event)"
+  [newBook]="newBook"
+  [updatedBook]="updatedBook"
+></app-book-list>

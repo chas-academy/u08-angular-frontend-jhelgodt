@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Book } from '../../models/book.model';
@@ -11,8 +18,9 @@ import { BookService } from '../../services/book.service';
   templateUrl: './book-form.component.html',
   styleUrls: ['./book-form.component.scss'],
 })
-export class BookFormComponent {
-  @Output() bookAdded = new EventEmitter<Book>(); // 👈 Lägg till EventEmitter
+export class BookFormComponent implements OnChanges {
+  @Input() editBook?: Book;
+  @Output() bookAdded = new EventEmitter<Book>();
 
   book: Book = {
     title: '',
@@ -23,15 +31,41 @@ export class BookFormComponent {
 
   constructor(private bookService: BookService) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['editBook'] && changes['editBook'].currentValue) {
+      this.book = { ...changes['editBook'].currentValue };
+    }
+  }
+
   onSubmit(): void {
+    if (this.book._id) {
+      this.updateBook();
+    } else {
+      this.addBook();
+    }
+  }
+
+  private addBook(): void {
     this.bookService.createBook(this.book).subscribe({
       next: (newBook) => {
-        console.log('Book created:', newBook);
-        this.bookAdded.emit(newBook); // 👈 Emitter skickar datan
+        this.bookAdded.emit(newBook);
         this.resetForm();
       },
       error: (err) => {
         console.error('Failed to create book:', err);
+      },
+    });
+  }
+
+  private updateBook(): void {
+    this.bookService.updateBook(this.book._id!, this.book).subscribe({
+      next: (updatedBook) => {
+        console.log('Book updated:', updatedBook);
+        this.bookAdded.emit(updatedBook);
+        this.resetForm();
+      },
+      error: (err) => {
+        console.error('Failed to update book:', err);
       },
     });
   }

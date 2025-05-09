@@ -1,4 +1,4 @@
-<h2>Add New Book</h2>
+<h2>{{ book._id ? "Edit Book" : "Add New Book" }}</h2>
 
 <form (ngSubmit)="onSubmit()" #bookForm="ngForm">
   <input
@@ -29,5 +29,5 @@
     placeholder="Genre"
     required
   />
-  <button type="submit">Add Book</button>
+  <button type="submit">{{ book._id ? "Save Changes" : "Add Book" }}</button>
 </form>

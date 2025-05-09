@@ -5,6 +5,7 @@
     <strong>{{ book.title }}</strong> by {{ book.author }} ({{
       book.publishedYear
     }}) – {{ book.genre }}
+    <button (click)="onEdit(book)">✏️</button>
     <button (click)="onDelete(book._id)">🗑️</button>
   </li>
 </ul>

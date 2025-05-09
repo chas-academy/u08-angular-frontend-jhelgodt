@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book.model';
@@ -12,6 +19,9 @@ import { Book } from '../../models/book.model';
 })
 export class BookListComponent implements OnChanges {
   @Input() newBook?: Book;
+  @Input() updatedBook?: Book; // 👈 Tar emot uppdaterad bok
+  @Output() editBook = new EventEmitter<Book>();
+
   books: Book[] = [];
 
   constructor(private bookService: BookService) {
@@ -21,6 +31,14 @@ export class BookListComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['newBook'] && changes['newBook'].currentValue) {
       this.books.push(changes['newBook'].currentValue);
+    }
+
+    if (changes['updatedBook'] && changes['updatedBook'].currentValue) {
+      const updatedBook = changes['updatedBook'].currentValue;
+      const index = this.books.findIndex((b) => b._id === updatedBook._id);
+      if (index !== -1) {
+        this.books[index] = updatedBook;
+      }
     }
   }
 
@@ -41,11 +59,14 @@ export class BookListComponent implements OnChanges {
     this.bookService.deleteBook(bookId).subscribe({
       next: () => {
         this.books = this.books.filter((book) => book._id !== bookId);
-        console.log(`Book with ID ${bookId} deleted`);
       },
       error: (err) => {
         console.error('Failed to delete book:', err);
       },
     });
+  }
+
+  onEdit(book: Book): void {
+    this.editBook.emit(book);
   }
 }
