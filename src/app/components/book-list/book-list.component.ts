@@ -11,8 +11,7 @@ import { Book } from '../../models/book.model';
   imports: [CommonModule],
 })
 export class BookListComponent implements OnChanges {
-  @Input() newBook?: Book; // 👈 Tar emot ny bok
-
+  @Input() newBook?: Book;
   books: Book[] = [];
 
   constructor(private bookService: BookService) {
@@ -21,7 +20,6 @@ export class BookListComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['newBook'] && changes['newBook'].currentValue) {
-      console.log('New book received:', changes['newBook'].currentValue);
       this.books.push(changes['newBook'].currentValue);
     }
   }
@@ -30,10 +28,23 @@ export class BookListComponent implements OnChanges {
     this.bookService.getAllBooks().subscribe({
       next: (data) => {
         this.books = data;
-        console.log('Books from API:', data);
       },
       error: (err) => {
         console.error('Failed to load books', err);
+      },
+    });
+  }
+
+  onDelete(bookId?: string): void {
+    if (!bookId) return;
+
+    this.bookService.deleteBook(bookId).subscribe({
+      next: () => {
+        this.books = this.books.filter((book) => book._id !== bookId);
+        console.log(`Book with ID ${bookId} deleted`);
+      },
+      error: (err) => {
+        console.error('Failed to delete book:', err);
       },
     });
   }
