@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Book } from '../../models/book.model';
@@ -12,6 +12,8 @@ import { BookService } from '../../services/book.service';
   styleUrls: ['./book-form.component.scss'],
 })
 export class BookFormComponent {
+  @Output() bookAdded = new EventEmitter<Book>(); // 👈 Lägg till EventEmitter
+
   book: Book = {
     title: '',
     author: '',
@@ -25,16 +27,21 @@ export class BookFormComponent {
     this.bookService.createBook(this.book).subscribe({
       next: (newBook) => {
         console.log('Book created:', newBook);
-        this.book = {
-          title: '',
-          author: '',
-          publishedYear: new Date().getFullYear(),
-          genre: '',
-        };
+        this.bookAdded.emit(newBook); // 👈 Emitter skickar datan
+        this.resetForm();
       },
       error: (err) => {
         console.error('Failed to create book:', err);
       },
     });
+  }
+
+  private resetForm(): void {
+    this.book = {
+      title: '',
+      author: '',
+      publishedYear: new Date().getFullYear(),
+      genre: '',
+    };
   }
 }
