@@ -51,22 +51,17 @@ export class BookFormComponent implements OnChanges {
         this.bookAdded.emit(newBook);
         this.resetForm();
       },
-      error: (err) => {
-        console.error('Failed to create book:', err);
-      },
+      error: (err) => console.error('Failed to create book:', err),
     });
   }
 
   private updateBook(): void {
     this.bookService.updateBook(this.book._id!, this.book).subscribe({
       next: (updatedBook) => {
-        console.log('Book updated:', updatedBook);
         this.bookAdded.emit(updatedBook);
         this.resetForm();
       },
-      error: (err) => {
-        console.error('Failed to update book:', err);
-      },
+      error: (err) => console.error('Failed to update book:', err),
     });
   }
 

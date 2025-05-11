@@ -1,16 +1,14 @@
-<div class="book-list">
-  <ul>
-    <li *ngFor="let book of books">
-      <div>
-        <strong>{{ book.title }}</strong> by {{ book.author }} ({{
-          book.publishedYear
-        }}) – {{ book.genre }}
-      </div>
-      <div class="actions">
-        <button (click)="onEdit(book)">✏️</button>
-        <button (click)="onDelete(book._id)">🗑️</button>
-        <a [routerLink]="['/books', book._id]">View</a>
-      </div>
-    </li>
-  </ul>
-</div>
+<ul>
+  <li *ngFor="let book of books">
+    <div>
+      <strong>{{ book.title }}</strong> by {{ book.author }} ({{
+        book.publishedYear
+      }}) – {{ book.genre }}
+    </div>
+    <div class="actions">
+      <button (click)="onEdit(book)">✏️</button>
+      <button (click)="onDelete(book._id)">🗑️</button>
+      <a [routerLink]="['/books', book._id]">View</a>
+    </div>
+  </li>
+</ul>

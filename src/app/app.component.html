@@ -1,8 +1,16 @@
 <div class="container">
   <nav class="nav">
-    <button routerLink="/" class="nav-button">Home</button>
-    <button routerLink="/add" class="nav-button">Add Book</button>
+    <button class="nav-button">Home</button>
   </nav>
 
-  <router-outlet></router-outlet>
+  <app-book-form
+    [editBook]="editableBook"
+    (bookAdded)="onBookAdded($event)"
+  ></app-book-form>
+
+  <app-book-list
+    (editBook)="onEditBook($event)"
+    [newBook]="newBook"
+    [updatedBook]="updatedBook"
+  ></app-book-list>
 </div>

@@ -6,5 +6,6 @@ import { BookDetailComponent } from './components/book-detail.component';
 export const routes: Routes = [
   { path: '', component: BookListComponent },
   { path: 'add', component: BookFormComponent },
+  { path: 'edit/:id', component: BookFormComponent }, // 👈 Ny rutt för edit-läget
   { path: 'books/:id', component: BookDetailComponent },
 ];

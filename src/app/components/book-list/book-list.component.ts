@@ -7,7 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book.model';
 
@@ -16,16 +16,16 @@ import { Book } from '../../models/book.model';
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule], // 👈 Lägg till RouterModule här
+  imports: [CommonModule, RouterModule],
 })
 export class BookListComponent implements OnChanges {
   @Input() newBook?: Book;
-  @Input() updatedBook?: Book;
+  @Input() updatedBook?: Book; // ✅ Lägg till denna rad
   @Output() editBook = new EventEmitter<Book>();
 
   books: Book[] = [];
 
-  constructor(private bookService: BookService) {
+  constructor(private bookService: BookService, private router: Router) {
     this.loadBooks();
   }
 
