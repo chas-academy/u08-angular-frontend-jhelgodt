@@ -7,5 +7,6 @@
     }}) – {{ book.genre }}
     <button (click)="onEdit(book)">✏️</button>
     <button (click)="onDelete(book._id)">🗑️</button>
+    <a [routerLink]="['/books', book._id]">View</a>
   </li>
 </ul>
