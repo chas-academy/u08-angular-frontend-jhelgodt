@@ -1,6 +1,10 @@
 <div *ngIf="book">
-  <p><strong>Title:</strong> {{ book?.title }}</p>
-  <p><strong>Author:</strong> {{ book?.author }}</p>
-  <p><strong>Year:</strong> {{ book?.publishedYear }}</p>
-  <p><strong>Genre:</strong> {{ book?.genre }}</p>
+  <h2>{{ book.title }}</h2>
+  <p><strong>Author:</strong> {{ book.author }}</p>
+  <p><strong>Published Year:</strong> {{ book.publishedYear }}</p>
+  <p><strong>Genre:</strong> {{ book.genre }}</p>
+</div>
+
+<div *ngIf="!book">
+  <p>No book selected.</p>
 </div>

@@ -10,7 +10,10 @@
 
   <app-book-list
     (editBook)="onEditBook($event)"
+    (viewBook)="onViewBook($event)"
     [newBook]="newBook"
     [updatedBook]="updatedBook"
   ></app-book-list>
+
+  <app-book-detail *ngIf="viewBookId" [bookId]="viewBookId"></app-book-detail>
 </div>

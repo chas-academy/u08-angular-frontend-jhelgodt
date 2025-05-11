@@ -6,9 +6,9 @@
       }}) – {{ book.genre }}
     </div>
     <div class="actions">
-      <button (click)="onEdit(book)">✏️</button>
-      <button (click)="onDelete(book._id)">🗑️</button>
-      <a [routerLink]="['/books', book._id]">View</a>
+      <button (click)="onEdit(book)">✏️ Edit</button>
+      <button (click)="onDelete(book._id)">🗑️ Delete</button>
+      <button *ngIf="book._id" (click)="onView(book._id)">👁️ View</button>
     </div>
   </li>
 </ul>
